@@ -1,0 +1,22 @@
+
+# Dependencias de React
+frontend/node_modules/
+
+# Archivos generados
+frontend/dist/
+
+# Entorno virtual de Python
+backend/venv/
+backend/__pycache__/
+backend/**/__pycache__/
+backend/*.pyc
+backend/**/*.pyc
+
+# Variables privadas
+.env
+.env.*
+
+# Archivos temporales
+.vscode/
+.DS_Store
+backend/db.sqlite3
