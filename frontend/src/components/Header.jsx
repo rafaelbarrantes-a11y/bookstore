@@ -1,29 +1,22 @@
+import { BookOpen, ShoppingBag } from "lucide-react";
 
-function Header() {
+export default function Header({ cantidad }) {
   return (
-    <header className="bg-[#39246D] text-white shadow-lg">
-      <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <a href="#" className="flex items-center gap-3">
-          <div className="bg-white text-[#39246D] p-3 rounded-xl">
-            <span className="text-2xl">📚</span>
-          </div>
-
-          <div>
-            <h1 className="text-2xl font-bold">BookStore</h1>
-            <p className="text-purple-200 text-sm">
-              Tu próxima lectura comienza aquí
-            </p>
-          </div>
+    <header className="site-header">
+      <div className="container header-inner">
+        <a className="brand" href="#inicio">
+          <span className="brand-icon"><BookOpen size={20} aria-hidden="true" /></span>
+          BookStore
         </a>
-
-        <nav className="flex gap-6 text-sm font-medium">
-          <a href="#" className="hover:text-purple-200">Inicio</a>
-          <a href="#catalogo" className="hover:text-purple-200">Catálogo</a>
-          <a href="#categorias" className="hover:text-purple-200">Categorías</a>
+        <nav aria-label="Navegación principal">
+          <a href="#catalogo">Catálogo</a>
+          <a href="#ofertas">Ofertas</a>
+          <a href="#recomendados">Recomendados</a>
         </nav>
+        <a className="cart-link" href="#carrito">
+          <ShoppingBag size={17} aria-hidden="true" /> Carrito <span>{cantidad}</span>
+        </a>
       </div>
     </header>
   );
 }
-
-export default Header;

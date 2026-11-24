@@ -1,21 +1,10 @@
-
 import ProductCard from "./ProductCard";
 
-function ProductList({ productos }) {
+export default function ProductList({ productos, agregar, vacio = "No encontramos libros con esos filtros." }) {
+  if (!productos.length) return <p className="notice">{vacio}</p>;
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {productos.map((producto) => (
-        <ProductCard
-          key={producto.id}
-          nombre={producto.nombre}
-          descripcion={producto.descripcion}
-          precio={producto.precio}
-          imagen={producto.imagen}
-          categoria={producto.categoria}
-        />
-      ))}
+    <div className="product-grid">
+      {productos.map((libro) => <ProductCard key={libro.id} libro={libro} agregar={agregar} />)}
     </div>
   );
 }
-
-export default ProductList;

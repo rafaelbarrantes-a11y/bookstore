@@ -9,6 +9,14 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  server: {
+    strictPort: true,
+    proxy: { '/api': 'http://127.0.0.1:8000' },
+  },
+  preview: {
+    strictPort: true,
+    proxy: { '/api': 'http://127.0.0.1:8000' },
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),

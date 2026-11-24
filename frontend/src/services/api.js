@@ -1,24 +1,47 @@
+const API_URL = import.meta.env.VITE_API_URL || "/api";
 
-const API_URL = "http://127.0.0.1:8000/api";
+export const adminUrl = import.meta.env.VITE_ADMIN_URL || "http://127.0.0.1:8000/admin/";
 
-// Obtener todos los productos desde Django
-export async function obtenerProductos() {
-  const respuesta = await fetch(`${API_URL}/productos/`);
-
-  if (!respuesta.ok) {
-    throw new Error("No se pudieron obtener los productos");
-  }
-
-  return await respuesta.json();
+function primerMensaje(datos) {
+  if (typeof datos === "string") return datos;
+  if (!datos || typeof datos !== "object") return "";
+  return Object.values(datos).map(primerMensaje).find(Boolean);
 }
 
-// Obtener todas las categorías desde Django
-export async function obtenerCategorias() {
-  const respuesta = await fetch(`${API_URL}/categorias/`);
-
+async function consultar(ruta, opciones) {
+  const respuesta = await fetch(`${API_URL}${ruta}`, opciones);
   if (!respuesta.ok) {
-    throw new Error("No se pudieron obtener las categorías");
+    const datos = await respuesta.json().catch(() => null);
+    const error = new Error(primerMensaje(datos) || "No se pudo completar la solicitud.");
+    error.estado = respuesta.status;
+    throw error;
   }
+  return respuesta.json();
+}
 
-  return await respuesta.json();
+export function obtenerProductos(filtros = {}, signal) {
+  const parametros = new URLSearchParams(
+    Object.entries(filtros).filter(([, valor]) => valor !== "")
+  );
+  return consultar(`/productos/?${parametros}`, { signal });
+}
+
+export function obtenerCategorias(_parametro, signal) {
+  return consultar("/categorias/", { signal });
+}
+
+export function obtenerProducto(id, signal) {
+  return consultar(`/productos/${id}/`, { signal });
+}
+
+export function obtenerRecomendados(id, signal) {
+  return consultar(`/productos/${id}/recomendados/`, { signal });
+}
+
+export function confirmarCompra(pedido) {
+  return consultar("/compras/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(pedido),
+  });
 }
